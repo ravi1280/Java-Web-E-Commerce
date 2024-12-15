@@ -7,12 +7,16 @@ public class User_DTO implements Serializable {
 
     @Expose 
     private String fName;
+    
     @Expose 
     private String lName;
+    
     @Expose 
     private String mobile;
+    
     @Expose 
     private String email;
+    
     @Expose (serialize = false,deserialize =true )
     private String password;
 

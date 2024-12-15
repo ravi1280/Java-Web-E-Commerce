@@ -1,8 +1,8 @@
 
 async  function signUp() {
     const  user_dto = {
-        fname: document.getElementById("fName").value,
-        lname: document.getElementById("lName").value,
+        fName: document.getElementById("fName").value,
+        lName: document.getElementById("lName").value,
         mobile: document.getElementById("mobile").value,
         email: document.getElementById("email").value,
         password: document.getElementById("password").value,
