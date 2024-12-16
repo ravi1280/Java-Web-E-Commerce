@@ -55,8 +55,10 @@ public class SignUp extends HttpServlet {
                 response_DTO.setContent("Email  Already Exists . please use another Email to signUp process!");
 
             } else {
+                //create verification code 
                 int code = (int) (Math.random() * 1000000);
 
+                //Insert User data 
                 User user = new User();
                 user.setFirstName(udto.getfName());
                 user.setLastName(udto.getlName());
