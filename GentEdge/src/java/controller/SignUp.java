@@ -6,13 +6,13 @@ import dto.Response_DTO;
 import dto.User_DTO;
 import entity.User;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.HibernateUtil;
+import model.Mail;
 import model.Validation;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -53,20 +53,33 @@ public class SignUp extends HttpServlet {
             Session session = HibernateUtil.getSessionFactory().openSession();
             Criteria criteria1 = session.createCriteria(User.class);
             criteria1.add(Restrictions.eq("email", udto.getEmail()));
-            
-            if(!criteria1.list().isEmpty()){
-            response_DTO.setContent("Email  Already Exists . please use another Email to signUp process!");
-                
-            }else{
-                            User user = new User();
-//           user.setEmail(email);
-//           user.setEmail(email);
-//           user.setEmail(email);
-//           user.setEmail(email)
 
-            session.save(user);
-            session.close();
+            if (!criteria1.list().isEmpty()) {
+                response_DTO.setContent("Email  Already Exists . please use another Email to signUp process!");
+
+            } else {
+                int code = (int) (Math.random() * 1000000);
+
+                User user = new User();
+                user.setEmail(udto.getfName());
+                user.setEmail(udto.getlName());
+                user.setEmail(udto.getMobile());
+                user.setEmail(udto.getEmail());
+                user.setEmail(udto.getPassword());
+                user.setEmail(String.valueOf(code));
+
+                //Send Email Verification
+                Mail.sendMail(udto.getEmail(), "GentEdge Account Verification code", 
+                        "<h1 style=\"color:#6699ff\">Yor Verification code is :"+user.getVeificatiion()+"</h1>" );
+             
+                session.save(user);
+                session.beginTransaction().commit();
+                
+                response_DTO.setSuccess(true);
+                response_DTO.setContent("Registaion complete !!");
+                
             }
+            session.close();
 
         }
 
