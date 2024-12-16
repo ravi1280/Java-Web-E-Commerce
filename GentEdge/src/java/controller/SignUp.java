@@ -14,7 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.HibernateUtil;
 import model.Validation;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 
 @WebServlet(name = "SignUp", urlPatterns = {"/SignUp"})
 public class SignUp extends HttpServlet {
@@ -37,19 +39,26 @@ public class SignUp extends HttpServlet {
         } else if (udto.getEmail().isEmpty()) {
             response_DTO.setContent("Please fill  Email Field");
 
-        } else if (Validation.isEmailValid(udto.getEmail())) {
+        } else if (!Validation.isEmailValid(udto.getEmail())) {
             response_DTO.setContent("Please fill  Valid Password");
 
         } else if (udto.getPassword().isEmpty()) {
             response_DTO.setContent("Please fill  Passwod Field");
 
-        } else if (Validation.isPasswordValid(udto.getPassword())) {
+        } else if (!Validation.isPasswordValid(udto.getPassword())) {
             response_DTO.setContent("Please fill  Valid Password");
 
         } else {
 
             Session session = HibernateUtil.getSessionFactory().openSession();
-            User user = new User();
+            Criteria criteria1 = session.createCriteria(User.class);
+            criteria1.add(Restrictions.eq("email", udto.getEmail()));
+            
+            if(!criteria1.list().isEmpty()){
+            response_DTO.setContent("Email  Already Exists . please use another Email to signUp process!");
+                
+            }else{
+                            User user = new User();
 //           user.setEmail(email);
 //           user.setEmail(email);
 //           user.setEmail(email);
@@ -57,6 +66,8 @@ public class SignUp extends HttpServlet {
 
             session.save(user);
             session.close();
+            }
+
         }
 
     }
