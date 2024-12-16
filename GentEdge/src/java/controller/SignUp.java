@@ -2,6 +2,7 @@ package controller;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import dto.Response_DTO;
 import dto.User_DTO;
 import entity.User;
 import java.io.IOException;
@@ -19,7 +20,7 @@ public class SignUp extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+Response_DTO  response_DTO = new Response_DTO();
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         User_DTO udto = gson.fromJson(request.getReader(), User_DTO.class);
 //        System.out.println(udto.getEmail());
@@ -31,16 +32,21 @@ public class SignUp extends HttpServlet {
 //        System.out.println(gson.toJson(udto));
 
         if (udto.getfName().isEmpty()) {
+            response_DTO.setContent("Please fill First Name filed");
 
         } else if (udto.getlName().isEmpty()) {
+            response_DTO.setContent("Please fill Last Name Field");
 
         } else if (udto.getMobile().isEmpty()) {
+            response_DTO.setContent("Please fill Mobile Field");
 
         } else if (udto.getEmail().isEmpty()) {
+            response_DTO.setContent("Please fill  Email Field");
 
         } else if (udto.getEmail().validate) {
 
         } else if (udto.getPassword().isEmpty()) {
+            response_DTO.setContent("Please fill  Passwod Field");
 
         } else if (udto.getPassword().validate) {
             
