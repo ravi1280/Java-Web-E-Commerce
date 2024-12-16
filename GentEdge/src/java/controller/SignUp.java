@@ -68,9 +68,16 @@ public class SignUp extends HttpServlet {
                 user.setVeificatiion(String.valueOf(code));
 
                 //Send Email Verification
-                Mail.sendMail(udto.getEmail(), "GentEdge Account Verification code", 
+                Thread sendMail = new Thread(){
+                    @Override
+                    public void run() {
+                                        Mail.sendMail(udto.getEmail(), "GentEdge Account Verification code", 
                         "<h1 style=\"color:#6699ff\">Yor Verification code is :"+user.getVeificatiion()+"</h1>" );
-             
+                    }
+                    
+                };
+                sendMail.start();
+                
                 session.save(user);
                 session.beginTransaction().commit();
                 
