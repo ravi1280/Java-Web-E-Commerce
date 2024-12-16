@@ -20,5 +20,12 @@ async  function signUp() {
 
             }
     );
+    if(response.ok){
+        const json = await  response.json();
+        console.log(json.success);
+        console.log(json.content);
+    }else{
+        console.log("Error");
+    }
 }
 

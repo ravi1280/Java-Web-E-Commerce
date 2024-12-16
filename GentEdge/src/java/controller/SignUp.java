@@ -40,15 +40,12 @@ public class SignUp extends HttpServlet {
             response_DTO.setContent("Please fill  Email Field");
 
         } else if (!Validation.isEmailValid(udto.getEmail())) {
-            response_DTO.setContent("Please fill  Valid Password");
+            response_DTO.setContent("Please fill  Valid Email");
 
         } else if (udto.getPassword().isEmpty()) {
             response_DTO.setContent("Please fill  Passwod Field");
 
-        } else if (!Validation.isPasswordValid(udto.getPassword())) {
-            response_DTO.setContent("Please fill  Valid Password");
-
-        } else {
+        }  else {
 
             Session session = HibernateUtil.getSessionFactory().openSession();
             Criteria criteria1 = session.createCriteria(User.class);
@@ -61,12 +58,12 @@ public class SignUp extends HttpServlet {
                 int code = (int) (Math.random() * 1000000);
 
                 User user = new User();
-                user.setEmail(udto.getfName());
-                user.setEmail(udto.getlName());
-                user.setEmail(udto.getMobile());
+                user.setFirstName(udto.getfName());
+                user.setLastName(udto.getlName());
+                user.setMobile(udto.getMobile());
                 user.setEmail(udto.getEmail());
-                user.setEmail(udto.getPassword());
-                user.setEmail(String.valueOf(code));
+                user.setPassword(udto.getPassword());
+                user.setVeificatiion(String.valueOf(code));
 
                 //Send Email Verification
                 Mail.sendMail(udto.getEmail(), "GentEdge Account Verification code", 
@@ -82,6 +79,7 @@ public class SignUp extends HttpServlet {
             session.close();
 
         }
+        response.getWriter().write(gson.toJson(response_DTO));
 
     }
 
