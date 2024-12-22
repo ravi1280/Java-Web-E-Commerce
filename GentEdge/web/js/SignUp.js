@@ -24,8 +24,17 @@ async  function signUp() {
         const json = await  response.json();
         console.log(json.success);
         console.log(json.content);
+        
+        if(json.success){
+            
+        }else{
+            document.getElementById("error-message").innerHTML=json.content;
+            document.getElementById("error-message").innerHTML=json.content;
+         }
+        
     }else{
         console.log("Error");
+        
     }
 }
 

@@ -76,7 +76,8 @@ public class SignUp extends HttpServlet {
                     }
                     
                 };
-                sendMail.start();
+                
+//                sendMail.start();
                 
                 session.save(user);
                 session.beginTransaction().commit();
